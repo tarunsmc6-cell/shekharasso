@@ -1,41 +1,29 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
-import { SmoothScroll } from "@/components/smooth-scroll";
-import { Cursor } from "@/components/cursor";
-import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
 
-const serif = Instrument_Serif({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
-  variable: "--font-serif",
+  weight: ["600", "700"],
+  variable: "--font-cormorant",
   display: "swap",
 });
 
-const sans = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const mono = JetBrains_Mono({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500"],
-  variable: "--font-mono",
+  variable: "--font-inter",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Shekhar & Associates — Legal & Financial Strategy",
+  title: "Shekhar & Associates Consulting Firm",
   description:
-    "A boutique advisory practice for ambitious enterprises — legal counsel and financial strategy, engineered for consequence.",
+    "Shekhar & Associates Consulting Firm — strategic advisory.",
   metadataBase: new URL("https://shekhar-associates.vercel.app"),
   openGraph: {
-    title: "Shekhar & Associates",
-    description: "Legal & Financial Strategy, engineered for consequence.",
+    title: "Shekhar & Associates Consulting Firm",
+    description: "Strategic advisory.",
     type: "website",
   },
 };
@@ -46,13 +34,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
-      <body className="grain cursor-hidden bg-ink text-bone">
-        <SmoothScroll />
-        <Cursor />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
+    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
+      <body className="bg-brand-cream text-brand-ink font-sans antialiased">
+        {children}
       </body>
     </html>
   );
