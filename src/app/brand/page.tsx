@@ -1,272 +1,152 @@
+import type { Metadata } from "next";
 import { Logo } from "@/components/logo";
+import { PageHero } from "@/components/page-hero";
+import { SectionLabel } from "@/components/section-label";
+
+export const metadata: Metadata = {
+  title: "Brand reference",
+  description: "Internal brand reference — tokens, typography, components.",
+  robots: { index: false, follow: false },
+};
 
 const palette = [
-  {
-    name: "Brand Navy",
-    token: "--brand-navy",
-    hex: "#1E3A5F",
-    note: "Headings, monogram, primary buttons, link hover",
-  },
-  {
-    name: "Brand Cream",
-    token: "--brand-cream",
-    hex: "#F2EDE4",
-    note: "Site background — not pure white",
-  },
-  {
-    name: "Brand Ink",
-    token: "--brand-ink",
-    hex: "#14202E",
-    note: "Body copy — never #000",
-  },
-  {
-    name: "Brand Muted",
-    token: "--brand-muted",
-    hex: "#6B7280",
-    note: "Secondary text, captions, metadata",
-  },
-  {
-    name: "Brand Rule",
-    token: "--brand-rule",
-    hex: "#D9D2C5",
-    note: "Dividers and hairline borders",
-  },
+  { name: "Navy", token: "--brand-navy", hex: "#1A2E4F", note: "Primary brand — wordmark, primary CTA, link accents." },
+  { name: "Navy 700", token: "--brand-navy-700", hex: "#152641", note: "Hover state for primary CTA; depth." },
+  { name: "Cream", token: "--brand-cream", hex: "#F5EFE3", note: "Page background — matches the logo plate." },
+  { name: "Cream 50", token: "--brand-cream-50", hex: "#FBF7EE", note: "Section bands, raised surfaces." },
+  { name: "Ink", token: "--brand-ink", hex: "#0F1A2A", note: "Body text on cream — near-black, warm." },
+  { name: "Muted", token: "--brand-muted", hex: "#6B6759", note: "Eyebrows, captions, fine print." },
+  { name: "Rule", token: "--brand-rule", hex: "#E0D8C8", note: "Hairline dividers, input borders." },
 ];
 
-const logoSizes = [24, 32, 40, 56, 72, 96, 128];
-
-export default function BrandPage() {
+export default function BrandReferencePage() {
   return (
-    <div className="min-h-screen bg-brand-cream text-brand-ink">
-      <div className="mx-auto max-w-5xl px-6 py-20 md:px-10 md:py-28">
-        <header className="mb-20">
-          <p className="eyebrow mb-6">Brand System — Internal Review</p>
-          <h1 className="font-serif font-bold text-brand-navy text-5xl md:text-7xl leading-[0.95] tracking-tight">
-            Shekhar &amp; Associates
-            <br />
-            Consulting Firm
-          </h1>
-          <p className="mt-6 max-w-2xl text-brand-muted text-base leading-relaxed">
-            Foundational visual system. Logo, palette, and typography for review
-            before any other route is touched.
-          </p>
-        </header>
+    <>
+      <PageHero
+        eyebrow="Brand / Reference"
+        index="∞"
+        title={<>Brand reference.</>}
+        lede="Internal page — tokens, typography, and component examples. Not linked from primary navigation."
+      />
 
-        <hr className="border-0 border-t border-brand-rule mb-20" />
-
-        {/* LOGO — full lockup at multiple sizes */}
-        <section className="mb-24">
-          <p className="eyebrow mb-4">01 — Logo · Full Lockup</p>
-          <h2 className="font-serif font-semibold text-brand-navy text-3xl md:text-4xl mb-10">
-            The mark is locked. Build the system around it.
-          </h2>
-
-          <div className="flex flex-wrap items-end gap-12 p-10 border border-brand-rule rounded">
-            {logoSizes.map((s) => (
-              <figure key={`full-${s}`} className="flex flex-col items-center gap-3">
-                <Logo variant="full" size={s} />
-                <figcaption className="eyebrow">{s}px</figcaption>
-              </figure>
-            ))}
+      {/* Logo lockup */}
+      <section className="border-t border-brand-rule py-16 md:py-24">
+        <div className="mx-auto max-w-[1280px] px-6 md:px-10 grid gap-10 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <SectionLabel index="01">Lockup</SectionLabel>
           </div>
-
-          <p className="mt-6 text-sm text-brand-muted max-w-2xl leading-relaxed">
-            Header uses 40px on desktop, 32px on mobile. Clear space on all
-            sides equals the height of the &ldquo;S&rdquo; in the monogram. Never invert.
-            Never place on the navy. Never apply overlays, gradients, or
-            drop shadows.
-          </p>
-        </section>
-
-        <hr className="border-0 border-t border-brand-rule mb-20" />
-
-        {/* LOGO — monogram */}
-        <section className="mb-24">
-          <p className="eyebrow mb-4">02 — Logo · Monogram</p>
-          <h2 className="font-serif font-semibold text-brand-navy text-3xl md:text-4xl mb-4">
-            S&amp;A monogram
-          </h2>
-          <p className="text-sm text-brand-muted max-w-2xl mb-10 leading-relaxed">
-            For favicons, OG images, and footer. Currently cropped from the
-            full lockup — a dedicated monogram-only asset is recommended for
-            production fidelity.
-          </p>
-
-          <div className="flex flex-wrap items-end gap-12 p-10 border border-brand-rule rounded">
-            {[32, 40, 56, 72, 96, 128].map((s) => (
-              <figure key={`mono-${s}`} className="flex flex-col items-center gap-3">
-                <Logo variant="monogram" size={s} />
-                <figcaption className="eyebrow">{s}px</figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-
-        <hr className="border-0 border-t border-brand-rule mb-20" />
-
-        {/* PALETTE */}
-        <section className="mb-24">
-          <p className="eyebrow mb-4">03 — Palette</p>
-          <h2 className="font-serif font-semibold text-brand-navy text-3xl md:text-4xl mb-2">
-            Navy on cream. That is the entire system.
-          </h2>
-          <p className="text-sm text-brand-muted max-w-2xl mb-10 leading-relaxed">
-            No additional accent colors. No gradients. No drop shadows.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-brand-rule border border-brand-rule rounded overflow-hidden">
-            {palette.map((c) => (
-              <div key={c.token} className="bg-brand-cream p-6 flex gap-6 items-start">
-                <div
-                  className="w-20 h-20 flex-shrink-0 border border-brand-rule rounded-sm"
-                  style={{ background: c.hex }}
-                />
-                <div className="flex-1 min-w-0">
-                  <p className="font-serif font-semibold text-brand-navy text-xl leading-tight">
-                    {c.name}
-                  </p>
-                  <p className="mt-1 text-xs text-brand-muted tracking-wider">
-                    {c.token}
-                  </p>
-                  <p className="mt-2 font-sans text-sm text-brand-ink">{c.hex}</p>
-                  <p className="mt-2 text-xs text-brand-muted leading-relaxed">
-                    {c.note}
-                  </p>
+          <div className="md:col-span-8 md:col-start-5">
+            <div className="grid gap-10 sm:grid-cols-2">
+              <div>
+                <p className="eyebrow mb-4">Full lockup</p>
+                <div className="border border-brand-rule bg-brand-cream p-10 flex justify-center">
+                  <Logo size={180} />
                 </div>
               </div>
+              <div>
+                <p className="eyebrow mb-4">Monogram</p>
+                <div className="border border-brand-rule bg-brand-cream p-10 flex justify-center">
+                  <Logo variant="monogram" size={120} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Palette */}
+      <section className="border-t border-brand-rule py-16 md:py-24">
+        <div className="mx-auto max-w-[1280px] px-6 md:px-10 grid gap-10 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <SectionLabel index="02">Palette</SectionLabel>
+          </div>
+          <ul className="md:col-span-8 md:col-start-5 grid gap-3 sm:grid-cols-2">
+            {palette.map((c) => (
+              <li key={c.name} className="border border-brand-rule overflow-hidden">
+                <div className="h-20" style={{ background: c.hex }} aria-hidden />
+                <div className="p-4">
+                  <p className="font-serif text-lg text-brand-navy">{c.name}</p>
+                  <p className="mt-1 text-[12px] text-brand-ink/65 tabular-nums">
+                    {c.hex} · <code>{c.token}</code>
+                  </p>
+                  <p className="mt-2 text-[12.5px] text-brand-ink/80">{c.note}</p>
+                </div>
+              </li>
             ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Typography */}
+      <section className="border-t border-brand-rule py-16 md:py-24">
+        <div className="mx-auto max-w-[1280px] px-6 md:px-10 grid gap-10 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <SectionLabel index="03">Typography</SectionLabel>
           </div>
-        </section>
-
-        <hr className="border-0 border-t border-brand-rule mb-20" />
-
-        {/* TYPOGRAPHY */}
-        <section className="mb-24">
-          <p className="eyebrow mb-4">04 — Typography</p>
-          <h2 className="font-serif font-semibold text-brand-navy text-3xl md:text-4xl mb-10">
-            Cormorant Garamond &amp; Inter
-          </h2>
-
-          <div className="space-y-12">
-            <SpecimenRow label="Eyebrow · Inter 500 · 0.75rem · tracking 0.18em">
-              <p className="eyebrow">Consulting Firm</p>
-            </SpecimenRow>
-
-            <SpecimenRow label="H1 · Cormorant Garamond 700">
-              <h1 className="font-serif font-bold text-brand-navy text-6xl md:text-7xl leading-[0.95] tracking-tight">
-                Engineered for consequence.
-              </h1>
-            </SpecimenRow>
-
-            <SpecimenRow label="H2 · Cormorant Garamond 700">
-              <h2 className="font-serif font-bold text-brand-navy text-5xl leading-[1] tracking-tight">
-                A boutique advisory practice.
-              </h2>
-            </SpecimenRow>
-
-            <SpecimenRow label="H3 · Cormorant Garamond 600">
-              <h3 className="font-serif font-semibold text-brand-navy text-4xl leading-[1.05]">
-                Strategy that survives contact with reality.
-              </h3>
-            </SpecimenRow>
-
-            <SpecimenRow label="H4 · Cormorant Garamond 600">
-              <h4 className="font-serif font-semibold text-brand-navy text-3xl leading-[1.1]">
-                Counsel for the ambitious.
-              </h4>
-            </SpecimenRow>
-
-            <SpecimenRow label="H5 · Cormorant Garamond 600">
-              <h5 className="font-serif font-semibold text-brand-navy text-2xl leading-[1.15]">
-                Section heading
-              </h5>
-            </SpecimenRow>
-
-            <SpecimenRow label="H6 · Cormorant Garamond 600">
-              <h6 className="font-serif font-semibold text-brand-navy text-xl leading-[1.2]">
-                Subsection heading
-              </h6>
-            </SpecimenRow>
-
-            <SpecimenRow label="Body · Inter 400 · 1rem · leading 1.65">
-              <p className="font-sans text-base text-brand-ink leading-[1.65] max-w-2xl">
-                Shekhar &amp; Associates is a consulting firm that pairs rigor
-                with restraint. We work with founders, operators, and boards
-                navigating the moments that matter — capital, governance, and
-                the structural decisions that compound for a decade. Our work
-                is private, our counsel is direct, and our outcomes speak in
-                a register we&rsquo;d rather not advertise.
+          <div className="md:col-span-8 md:col-start-5 space-y-8">
+            <div>
+              <p className="eyebrow mb-3">Display — Cormorant Garamond</p>
+              <p className="font-serif text-display-lg font-semibold text-brand-navy">
+                Counsel for decisions that cannot be undone.
               </p>
-            </SpecimenRow>
-
-            <SpecimenRow label="Body · Inter 500 · 0.875rem · muted">
-              <p className="font-sans text-sm text-brand-muted leading-[1.6] max-w-2xl">
-                Secondary text. Used for captions, metadata, and supporting
-                detail beneath primary content. Slightly heavier weight,
-                slightly smaller scale, slightly cooler tone.
+            </div>
+            <div>
+              <p className="eyebrow mb-3">Section heading — Cormorant Garamond</p>
+              <p className="font-serif text-display-sm font-semibold text-brand-navy">
+                Three disciplines, one principal.
               </p>
-            </SpecimenRow>
+            </div>
+            <div>
+              <p className="eyebrow mb-3">Body — Montserrat</p>
+              <p className="prose-body">
+                Body text at 17px with 1.7 leading, measured to 72ch. Cormorant
+                Garamond handles display and serifed running text where the
+                article calls for it; Montserrat carries body, navigation,
+                forms, eyebrows, and the small-caps echo of the
+                logo&rsquo;s &ldquo;Consulting Firm&rdquo; line.
+              </p>
+            </div>
+            <div>
+              <p className="eyebrow mb-3">Eyebrow — Montserrat</p>
+              <p className="eyebrow eyebrow--accent">Practice / Chartered Accountancy</p>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <hr className="border-0 border-t border-brand-rule mb-20" />
-
-        {/* CTAs */}
-        <section className="mb-24">
-          <p className="eyebrow mb-4">05 — Buttons</p>
-          <h2 className="font-serif font-semibold text-brand-navy text-3xl md:text-4xl mb-10">
-            Primary &amp; secondary
-          </h2>
-          <div className="flex flex-wrap items-center gap-6">
-            <a href="#" className="btn-primary">
-              Schedule a consultation
-            </a>
-            <a href="#" className="btn-secondary">
-              View our practice
-            </a>
+      {/* Components */}
+      <section className="border-t border-brand-rule py-16 md:py-24">
+        <div className="mx-auto max-w-[1280px] px-6 md:px-10 grid gap-10 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <SectionLabel index="04">Components</SectionLabel>
           </div>
-          <p className="mt-6 text-xs text-brand-muted">
-            Primary — navy fill, cream text, 4px radius. Secondary — 1px navy
-            border, navy text, transparent fill.
-          </p>
-        </section>
-
-        <hr className="border-0 border-t border-brand-rule mb-20" />
-
-        {/* FOOTER USAGE */}
-        <section className="mb-24">
-          <p className="eyebrow mb-4">06 — Footer Usage</p>
-          <h2 className="font-serif font-semibold text-brand-navy text-3xl md:text-4xl mb-10">
-            Monogram + wordmark, centered
-          </h2>
-          <div className="flex flex-col items-center gap-4 py-16 border border-brand-rule rounded">
-            <Logo variant="monogram" size={56} />
-            <p className="font-serif font-semibold text-brand-navy text-2xl">
-              Shekhar &amp; Associates
-            </p>
-            <p className="eyebrow">Consulting Firm</p>
+          <div className="md:col-span-8 md:col-start-5 space-y-6">
+            <div className="flex flex-wrap items-center gap-4">
+              <button type="button" className="btn-primary">
+                Primary CTA
+              </button>
+              <button type="button" className="btn-secondary">
+                Secondary CTA
+              </button>
+            </div>
+            <div className="border-t border-brand-rule pt-6">
+              <p className="eyebrow mb-3">Form field</p>
+              <label
+                htmlFor="brand-demo"
+                className="block text-[13px] font-medium tracking-wide text-brand-ink"
+              >
+                Sample field
+              </label>
+              <input
+                id="brand-demo"
+                type="text"
+                placeholder="Placeholder text"
+                className="mt-2 block w-full max-w-md rounded-sm border border-brand-rule bg-brand-cream px-3.5 py-3 text-[15px] text-brand-ink placeholder:text-brand-ink/40 focus:border-brand-navy focus:outline-none focus:ring-2 focus:ring-brand-navy/20"
+              />
+            </div>
           </div>
-        </section>
-
-        <footer className="pt-10 border-t border-brand-rule">
-          <p className="eyebrow">End of brand review</p>
-        </footer>
-      </div>
-    </div>
-  );
-}
-
-function SpecimenRow({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-10 items-baseline">
-      <p className="eyebrow pt-2">{label}</p>
-      <div>{children}</div>
-    </div>
+        </div>
+      </section>
+    </>
   );
 }

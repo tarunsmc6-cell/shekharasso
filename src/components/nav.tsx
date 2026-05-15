@@ -4,15 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
-import { Magnetic } from "@/components/magnetic";
+import { Logo } from "@/components/logo";
 
 const links = [
-  { href: "/", label: "Index", code: "00" },
-  { href: "/about", label: "About", code: "01" },
-  { href: "/services", label: "Services", code: "02" },
-  { href: "/work", label: "Work", code: "03" },
-  { href: "/insights", label: "Insights", code: "04" },
-  { href: "/contact", label: "Contact", code: "05" },
+  { href: "/practice", label: "Practice" },
+  { href: "/insights", label: "Insights" },
+  { href: "/about", label: "About" },
+  { href: "/engage", label: "Engage" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Nav() {
@@ -21,7 +20,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -35,75 +34,85 @@ export function Nav() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-          scrolled ? "py-3 backdrop-blur-md bg-ink/70" : "py-6 bg-transparent"
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,padding] duration-300",
+          scrolled
+            ? "bg-brand-cream/95 backdrop-blur-md py-3 shadow-[0_1px_0_0_var(--brand-rule)]"
+            : "bg-brand-cream py-5"
         )}
       >
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 md:px-10">
-          <Link href="/" className="group flex items-center gap-3" data-cursor="home">
-            <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-full border border-bone/40">
-              <span className="font-serif text-lg italic text-bone">S</span>
-              <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-ember" />
-            </span>
-            <span className="hidden md:flex flex-col leading-[1] pt-0.5">
-              <span className="font-serif text-[17px] tracking-tight">Shekhar</span>
-              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-bone/60">
-                & Associates
+        <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 md:px-10">
+          <Link
+            href="/"
+            className="group flex items-center gap-3"
+            aria-label="Shekhar & Associates — home"
+          >
+            <Logo variant="monogram" size={36} />
+            <span className="hidden sm:flex flex-col leading-[1.05]">
+              <span className="font-serif text-[19px] font-semibold tracking-tight text-brand-navy">
+                Shekhar &amp; Associates
+              </span>
+              <span className="eyebrow text-[10px] tracking-[0.28em]">
+                Consulting Firm
               </span>
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-7">
+          <nav
+            aria-label="Primary"
+            className="hidden md:flex items-center gap-8"
+          >
             {links.map((l) => {
-              const active = l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
+              const active =
+                l.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(l.href);
               return (
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="group relative flex items-center gap-1.5 text-[13px] font-medium"
-                  data-cursor={l.label}
+                  className={cn(
+                    "text-[13px] font-medium tracking-wide transition-colors",
+                    active
+                      ? "text-brand-navy"
+                      : "text-brand-ink/75 hover:text-brand-navy"
+                  )}
+                  aria-current={active ? "page" : undefined}
                 >
-                  <span
-                    className={cn(
-                      "font-mono text-[10px] tracking-[0.18em]",
-                      active ? "text-ember" : "text-bone/40"
-                    )}
-                  >
-                    {l.code}
-                  </span>
-                  <span className={cn("link-underline", active && "text-ember")}>{l.label}</span>
+                  {l.label}
                 </Link>
               );
             })}
           </nav>
 
           <div className="flex items-center gap-3">
-            <Magnetic>
-              <Link
-                href="/contact"
-                className="hidden md:inline-flex items-center gap-2 rounded-full border border-bone/30 bg-bone/5 px-5 py-2.5 text-xs uppercase tracking-[0.2em] font-mono hover:bg-bone hover:text-ink transition-colors"
-                data-cursor="book"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-ember animate-pulse" />
-                Book Consult
-              </Link>
-            </Magnetic>
+            <Link
+              href="/contact"
+              className="hidden md:inline-flex btn-primary"
+            >
+              Begin a conversation
+            </Link>
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="md:hidden flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-bone/30"
-              aria-label="Menu"
-              data-cursor={open ? "close" : "menu"}
+              className="md:hidden flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-sm border border-brand-rule bg-brand-cream-50"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
             >
               <span
                 className={cn(
-                  "h-px w-4 bg-bone transition-transform duration-300",
+                  "h-px w-4 bg-brand-navy transition-transform duration-300",
                   open && "translate-y-[3px] rotate-45"
                 )}
               />
               <span
                 className={cn(
-                  "h-px w-4 bg-bone transition-transform duration-300",
+                  "h-px w-4 bg-brand-navy transition-[opacity] duration-300",
+                  open && "opacity-0"
+                )}
+              />
+              <span
+                className={cn(
+                  "h-px w-4 bg-brand-navy transition-transform duration-300",
                   open && "-translate-y-[3px] -rotate-45"
                 )}
               />
@@ -115,29 +124,45 @@ export function Nav() {
       {/* Mobile drawer */}
       <div
         className={cn(
-          "fixed inset-0 z-40 md:hidden bg-ink transition-[clip-path] duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]",
-          open ? "[clip-path:circle(150%_at_100%_0%)]" : "[clip-path:circle(0%_at_100%_0%)]"
+          "fixed inset-0 z-40 md:hidden bg-brand-cream transition-[clip-path] duration-500 ease-editorial",
+          open
+            ? "[clip-path:inset(0_0_0_0)]"
+            : "[clip-path:inset(0_0_100%_0)]"
         )}
+        aria-hidden={!open}
       >
         <div className="flex h-full flex-col justify-between px-6 pb-10 pt-24">
-          <ul className="flex flex-col gap-2">
-            {links.map((l, i) => (
-              <li
-                key={l.href}
-                className="border-b border-bone/10 py-4 transition-all duration-700"
-                style={{ transitionDelay: `${open ? 200 + i * 60 : 0}ms`, opacity: open ? 1 : 0, transform: open ? "translateY(0)" : "translateY(20px)" }}
-              >
-                <Link href={l.href} className="flex items-baseline justify-between">
-                  <span className="font-serif text-4xl">{l.label}</span>
-                  <span className="font-mono text-[10px] tracking-[0.18em] text-bone/40">
-                    {l.code}
-                  </span>
-                </Link>
-              </li>
-            ))}
+          <ul className="flex flex-col">
+            {links.map((l) => {
+              const active =
+                l.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(l.href);
+              return (
+                <li key={l.href} className="border-b border-brand-rule">
+                  <Link
+                    href={l.href}
+                    className={cn(
+                      "flex items-baseline justify-between py-5 font-serif text-3xl",
+                      active ? "text-brand-navy" : "text-brand-ink"
+                    )}
+                  >
+                    <span>{l.label}</span>
+                    <span className="eyebrow text-[10px]">
+                      0{links.indexOf(l) + 1}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-bone/50">
-            Mumbai · Bengaluru · Singapore
+          <div>
+            <Link href="/contact" className="btn-primary w-full">
+              Begin a conversation
+            </Link>
+            <p className="mt-6 eyebrow">
+              Reply within one business day
+            </p>
           </div>
         </div>
       </div>

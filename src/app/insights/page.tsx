@@ -1,257 +1,98 @@
-"use client";
-
-import { useState } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/cn";
-import { SectionLabel } from "@/components/section-label";
-import { SplitReveal } from "@/components/reveal";
+import { PageHero } from "@/components/page-hero";
 
-type Article = {
-  cat: "Regulatory" | "M&A" | "Tax" | "Private Client" | "Disputes";
-  title: string;
-  dek: string;
-  author: string;
-  date: string;
-  read: string;
-  featured?: boolean;
+export const metadata: Metadata = {
+  title: "Insights",
+  description:
+    "Briefings on tax, accounting, and corporate-law questions that arise for founders, boards, and family offices.",
 };
 
-const articles: Article[] = [
+const briefings = [
   {
-    cat: "Regulatory",
-    title: "SEBI's 2026 disclosure framework, and what boards haven't noticed yet.",
-    dek: "Three obligations that will surprise issuers—and how to stage readiness before the October cut-over.",
-    author: "Arjun Shekhar",
-    date: "Mar 14, 2026",
-    read: "12 min",
-    featured: true,
+    slug: "sample-briefing",
+    category: "Tax · Cross-border",
+    title:
+      "Reading the GAAR notification: what founders actually need to file.",
+    summary:
+      "GAAR is invoked far less often than it is feared. The filings that matter — and the disclosures that do not — are narrower than most founders assume.",
+    lastReviewed: "May 2026",
+    minutes: "6 min read",
   },
   {
-    cat: "M&A",
-    title: "The quiet rise of reverse mergers in Indian mid-cap financial services.",
-    dek: "Why sponsors are preferring route B. A data read of 2024-25 deals and what it means for valuation.",
-    author: "Meera Iyer",
-    date: "Feb 22, 2026",
-    read: "8 min",
+    slug: "sample-briefing-2",
+    category: "Corporate Law",
+    title:
+      "Drafting the right of first refusal: five clauses founders agree to too quickly.",
+    summary:
+      "ROFR clauses look mechanical at signing. The mechanics matter at exit. Five drafting points that change who gets to decide when the company is sold.",
+    lastReviewed: "May 2026",
+    minutes: "8 min read",
   },
   {
-    cat: "Tax",
-    title: "GAAR is no longer theoretical. Read the 2025 assessment record.",
-    dek: "We pulled every public GAAR order in 2024-25. The pattern is unambiguous, and planning cycles should adjust.",
-    author: "Meera Iyer",
-    date: "Jan 30, 2026",
-    read: "15 min",
-  },
-  {
-    cat: "Private Client",
-    title: "Family constitutions that survive a founder's exit.",
-    dek: "Three tension points and how good charters resolve them before they become disputes.",
-    author: "Priya Khanna",
-    date: "Jan 11, 2026",
-    read: "9 min",
-  },
-  {
-    cat: "Disputes",
-    title: "The case against arbitration for promoter disputes.",
-    dek: "Counterintuitive, but the numbers say confidentiality may be the wrong trade.",
-    author: "Rohan Verma",
-    date: "Dec 18, 2025",
-    read: "10 min",
-  },
-  {
-    cat: "Regulatory",
-    title: "RBI's FEMA compounding: what 2025 told us.",
-    dek: "A note on pricing, timing, and the paperwork that lands applications on the faster list.",
-    author: "Arjun Shekhar",
-    date: "Dec 02, 2025",
-    read: "7 min",
-  },
-  {
-    cat: "M&A",
-    title: "Earn-outs that actually pay out.",
-    dek: "Structuring contingent consideration so both sides close the file without the second dispute.",
-    author: "Arjun Shekhar",
-    date: "Nov 14, 2025",
-    read: "11 min",
-  },
-  {
-    cat: "Tax",
-    title: "A simpler way to think about transfer pricing in a services business.",
-    dek: "Method selection, benchmarking, and the one thing assessors keep asking that companies keep missing.",
-    author: "Meera Iyer",
-    date: "Oct 29, 2025",
-    read: "14 min",
+    slug: "sample-briefing-3",
+    category: "US CPA · India–US Corridor",
+    title:
+      "If you took a US W-2 and own an Indian company: a short checklist.",
+    summary:
+      "Substantial-presence, treaty-tiebreaker, FBAR, Form 5471, Form 8938 — and the reading of each that most clients miss the first year.",
+    lastReviewed: "May 2026",
+    minutes: "7 min read",
   },
 ];
 
-const categories = ["All", "Regulatory", "M&A", "Tax", "Private Client", "Disputes"] as const;
-
-export default function InsightsPage() {
-  const [cat, setCat] = useState<(typeof categories)[number]>("All");
-  const filtered = articles.filter((a) => cat === "All" || a.cat === cat);
-  const featured = articles.find((a) => a.featured);
-
+export default function InsightsIndex() {
   return (
     <>
-      <section className="pt-40 md:pt-56 pb-12 px-6 md:px-10">
-        <div className="mx-auto max-w-[1600px]">
-          <SectionLabel index="01">Insights</SectionLabel>
-          <h1 className="mt-8 font-serif text-display-lg leading-[0.9] tracking-mega-tight text-balance">
-            <SplitReveal text="Field notes from" /> <br />
-            <em className="text-ember">
-              <SplitReveal text="the practice." delay={0.15} />
-            </em>
-          </h1>
-          <div className="mt-10 grid gap-8 md:grid-cols-12">
-            <p className="md:col-span-5 md:col-start-8 text-lg leading-relaxed text-bone/80 text-pretty">
-              We publish what we&apos;d want to read—short reads, deep analyses, and quiet calls on
-              what the market is about to do next. No filler.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Insights"
+        index="01"
+        title={<>Briefings.</>}
+        lede="Short, sourced briefings on the questions that come up at the intersection of tax, accounting, and corporate law. Written for the reader who has retained counsel before."
+      />
 
-      {/* Featured editorial */}
-      {featured && (
-        <section className="px-6 md:px-10 py-16">
-          <div className="mx-auto max-w-[1600px]">
-            <Link
-              href="#"
-              className="group relative block rounded-3xl overflow-hidden bg-ember text-ink p-10 md:p-16 hover:bg-ember-light transition-colors"
-              data-cursor="read"
-            >
-              <div className="grid gap-10 md:grid-cols-12 items-end">
-                <div className="md:col-span-8">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink/70 flex items-center gap-3">
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-ink animate-pulse" />
-                    Featured · {featured.cat}
+      <section className="border-t border-brand-rule">
+        <ul className="mx-auto max-w-[1280px] px-6 md:px-10 divide-y divide-brand-rule">
+          {briefings.map((b) => (
+            <li key={b.slug}>
+              <Link
+                href={`/insights/${b.slug}`}
+                className="group block py-12 md:py-16 transition-colors hover:bg-brand-cream-50 -mx-6 px-6 md:-mx-10 md:px-10"
+              >
+                <div className="grid gap-8 md:grid-cols-12 items-start">
+                  <div className="md:col-span-3">
+                    <p className="eyebrow eyebrow--accent">{b.category}</p>
+                    <p className="mt-3 text-[12.5px] text-brand-ink/55">
+                      Last reviewed {b.lastReviewed} &middot; {b.minutes}
+                    </p>
                   </div>
-                  <h2 className="mt-6 font-serif text-[clamp(2.5rem,5.5vw,5.5rem)] leading-[0.95] text-balance">
-                    {featured.title}
-                  </h2>
-                  <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink/80 text-pretty">
-                    {featured.dek}
-                  </p>
-                </div>
-                <div className="md:col-span-4 md:col-start-9 flex items-end justify-between gap-4">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink/70">
-                    <div>{featured.author}</div>
-                    <div className="mt-1">{featured.date} · {featured.read}</div>
-                  </div>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-ink text-bone text-xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
-                    →
+                  <div className="md:col-span-8 md:col-start-5">
+                    <h2 className="font-serif text-2xl md:text-[32px] leading-[1.15] text-brand-navy text-balance max-w-[28ch]">
+                      {b.title}
+                    </h2>
+                    <p className="mt-4 max-w-[60ch] text-[15.5px] leading-relaxed text-brand-ink/80">
+                      {b.summary}
+                    </p>
+                    <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium tracking-wide text-brand-navy group-hover:gap-3 transition-[gap]">
+                      Read briefing <span aria-hidden>&rsaquo;</span>
+                    </span>
                   </div>
                 </div>
-              </div>
-            </Link>
-          </div>
-        </section>
-      )}
-
-      {/* Filters */}
-      <section className="px-6 md:px-10 py-6">
-        <div className="mx-auto max-w-[1600px] flex flex-wrap items-center justify-between gap-6 border-y border-bone/10 py-5">
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-bone/60">
-            [ Topic / {filtered.length} articles ]
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((c) => (
-              <button
-                key={c}
-                onClick={() => setCat(c)}
-                className={cn(
-                  "rounded-full border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.22em] transition-all",
-                  cat === c
-                    ? "bg-bone text-ink border-bone"
-                    : "border-bone/20 text-bone/70 hover:border-bone/60"
-                )}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-        </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      {/* Grid */}
-      <section className="px-6 md:px-10 pb-24">
-        <div className="mx-auto max-w-[1600px]">
-          <motion.ul layout className="grid gap-px bg-bone/10 md:grid-cols-2">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((a) => (
-                <motion.li
-                  key={a.title}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
-                >
-                  <Link
-                    href="#"
-                    className="group flex h-full flex-col gap-8 bg-ink p-10 md:p-14 hover:bg-ink-800 transition-colors"
-                    data-cursor="read"
-                  >
-                    <div className="flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.22em]">
-                      <span className="text-ember">{a.cat}</span>
-                      <span className="text-bone/50">{a.date} · {a.read}</span>
-                    </div>
-                    <h3 className="font-serif text-3xl md:text-4xl leading-[1.05] text-pretty">
-                      {a.title}
-                    </h3>
-                    <p className="text-bone/70 leading-relaxed text-pretty">{a.dek}</p>
-                    <div className="mt-auto flex items-center justify-between pt-6 border-t border-bone/10">
-                      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-bone/60">
-                        {a.author}
-                      </div>
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full border border-bone/20 group-hover:border-ember group-hover:bg-ember group-hover:text-ink transition-all">
-                        →
-                      </span>
-                    </div>
-                  </Link>
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </motion.ul>
-        </div>
-      </section>
-
-      {/* Subscribe */}
-      <section className="py-32 md:py-40 px-6 md:px-10 border-t border-bone/10">
-        <div className="mx-auto max-w-[1600px] grid gap-10 md:grid-cols-12 items-end">
-          <div className="md:col-span-7">
-            <SectionLabel index="02">Subscribe</SectionLabel>
-            <h2 className="mt-6 font-serif text-display-md leading-[0.95] text-balance">
-              Ten editions a year. <em className="text-ember">No other mail.</em>
-            </h2>
-            <p className="mt-6 max-w-lg text-bone/70 leading-relaxed text-pretty">
-              The same notes our partners circulate internally, condensed for a wider audience.
-              Unsubscribe sits at the top of every issue.
-            </p>
-          </div>
-          <form className="md:col-span-5 md:col-start-8 flex flex-col gap-4">
-            <label htmlFor="email" className="font-mono text-[10px] uppercase tracking-[0.22em] text-bone/60">
-              Email address
-            </label>
-            <div className="flex gap-3 border-b border-bone/30 pb-3 focus-within:border-ember transition-colors">
-              <input
-                id="email"
-                type="email"
-                placeholder="you@firm.co"
-                className="flex-1 bg-transparent font-serif text-2xl placeholder:text-bone/30 outline-none"
-              />
-              <button
-                type="submit"
-                className="font-mono text-xs uppercase tracking-[0.22em] text-ember hover:text-bone transition-colors"
-              >
-                Send →
-              </button>
-            </div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-bone/40">
-              Hosted privately. Never shared.
-            </p>
-          </form>
+      <section className="border-t border-brand-rule bg-brand-cream-50 py-16">
+        <div className="mx-auto max-w-[1280px] px-6 md:px-10">
+          <p className="eyebrow mb-3">Notice</p>
+          <p className="max-w-[80ch] text-[13px] leading-relaxed text-brand-ink/70">
+            Briefings are provided for general informational purposes only
+            and do not constitute legal, tax, accounting, or financial
+            advice. No advisor&ndash;client relationship is created by
+            reading these pages. Jurisdiction-specific rules may apply.
+          </p>
         </div>
       </section>
     </>

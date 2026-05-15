@@ -1,29 +1,5 @@
-"use client";
-
-import { useEffect } from "react";
-import Lenis from "lenis";
-
-export function SmoothScroll() {
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.4,
-    });
-
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-    };
-  }, []);
-
+// Deprecated during the rebrand. The component is not referenced from any
+// active route; this stub is preserved so legacy imports continue to compile.
+export function SmoothScroll(): null {
   return null;
 }
